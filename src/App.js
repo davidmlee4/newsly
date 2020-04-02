@@ -10,6 +10,8 @@ class App extends React.Component {
 
   state = {
     articles: articles,
+    articleView: true,
+    light: true
   }
 
   renderArticles = () => {
@@ -24,13 +26,35 @@ class App extends React.Component {
     })
   }
 
+  renderList = () => {
+    return this.state.articles.map(article => {
+      return <ArticleItem
+              title={article.title}
+              />
+    })
+  }
+
+  articleViewButton = () => {
+    this.setState({
+      articleView: !this.state.articleView
+    })
+  }
+
+
+  lightDark = () => {
+    this.setState({
+      light: !this.state.light
+    })
+  }
+
+
   render(){
     return (
-      <div className="light">
-        <button>Switch to Dark Mode</button>
-        <button>Switch to List View</button>
+      <div className={this.state.light ? "light" : "dark"}>
+        <button onClick={this.lightDark}>Switch to {this.state.light ? "Dark" : "Light"} Mode</button>
+        <button onClick={this.articleViewButton}>Switch to {this.state.articleView ? "List" : "Card"} View</button>
         <div className="cards">
-          {this.renderArticles()}
+          {this.state.articleView ? this.renderArticles() : this.renderList()}
         </div>
       </div>
     );
